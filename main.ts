@@ -75,11 +75,14 @@ function ukazReproduktor() {
 // ---------- start ------------------------------------------------------
 radio.setGroup(kanal)
 radio.setTransmitPower(7)
+// Vestavěný reproduktor V2 + max hlasitost
+music.setBuiltInSpeakerEnabled(true)
+music.setVolume(255)
 basic.showIcon(IconNames.Heart)
-// startovací pípnutí – pokud HO SLYŠÍŠ, audio HW + extension jedou
-music.playTone(660, 150)
-basic.pause(80)
-music.playTone(880, 150)
+// startovací pípnutí – pokud HO SLYŠÍŠ, audio HW jede
+music.playTone(660, 200)
+basic.pause(100)
+music.playTone(880, 200)
 basic.pause(200)
 basic.showNumber(kanal)
 basic.pause(500)
@@ -128,8 +131,9 @@ input.onButtonPressed(Button.A, function () {
     }
     audioradio.stopCapture()
     const total = audioradio.captureLength()
-    basic.showIcon(IconNames.Yes)
-    basic.pause(200)
+    // DIAGNOSTIKA: kolik bajtů se nahrálo (0 = mic nedaří)
+    basic.showNumber(total)
+    basic.pause(600)
     ukazAntenu()
     odeslatNahravku(total)
     basic.showIcon(IconNames.Yes)
