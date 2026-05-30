@@ -84,12 +84,10 @@ public:
         int remain = playLen - playPos;
         if (!playing || remain <= 0) {
             playing = false;
-            // tichá obálka, aby mixér měl co tahat
-            ManagedBuffer silence(128 * 2);
-            memset(silence.getBytes(), 0, silence.length());
-            return silence;
+            // tiše ukončíme – prázdný buffer
+            return ManagedBuffer(0);
         }
-        int n = remain < 128 ? remain : 128;
+        int n = remain < 256 ? remain : 256;
         ManagedBuffer out(n * 2);
         uint8_t *dst = out.getBytes();
         for (int i = 0; i < n; i++) {
@@ -99,6 +97,10 @@ public:
             dst[i * 2 + 1] = (v >> 8) & 0xFF;
         }
         playPos += n;
+        // KLÍČOVÉ: zařaď další pull, aby mixér pokračoval v tažení dat
+        if (downstream != NULL && playPos < playLen) {
+            downstream->pullRequest();
+        }
         return out;
     }
 
@@ -150,6 +152,8 @@ void startCapture(int sampleRate, int maxBytes) {
     captureLen = 0;
     captureCap = maxBytes;
     capturing  = true;
+    // KLÍČOVÉ: řekni splitteru, že chceme data – jinak nic neposla
+    if (inChan != NULL) inChan->dataWanted(DATASTREAM_WANTED);
 #endif
 }
 
@@ -160,6 +164,7 @@ void startCapture(int sampleRate, int maxBytes) {
 void stopCapture() {
 #if MICROBIT_CODAL
     capturing = false;
+    if (inChan != NULL) inChan->dataWanted(DATASTREAM_DONT_CARE);
 #endif
 }
 
@@ -242,6 +247,10 @@ void playStart() {
     if (bufSrc == NULL) return;
     playPos = 0;
     playing = true;
+    // KLÍČOVÉ: probuď mixér, aby si nás začal tahat
+    if (bufSrc->downstream != NULL) {
+        bufSrc->downstream->pullRequest();
+    }
 #endif
 }
 

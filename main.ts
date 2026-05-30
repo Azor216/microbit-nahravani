@@ -76,7 +76,11 @@ function ukazReproduktor() {
 radio.setGroup(kanal)
 radio.setTransmitPower(7)
 basic.showIcon(IconNames.Heart)
-basic.pause(400)
+// startovací pípnutí – pokud HO SLYŠÍŠ, audio HW + extension jedou
+music.playTone(660, 150)
+basic.pause(80)
+music.playTone(880, 150)
+basic.pause(200)
 basic.showNumber(kanal)
 basic.pause(500)
 basic.clearScreen()
