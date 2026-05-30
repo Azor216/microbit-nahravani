@@ -12,7 +12,7 @@ přes radio mezi dvěma+ micro:bity V2.
 1. **C++ extension `audioradio`** (přímo v projektu, soubor `audioradio.cpp`):
    - `MicSink` se připojí na `uBit.audio.splitter` a zachycuje samply z mikrofonu.
    - Konvertuje je z 16-bit signed PCM na 8-bit unsigned a downsampluje 2× → ~5.5 kHz × 8 bit.
-   - Ukládá do interního pole (max 8 KB ≈ 1.45 s zvuku).
+   - Ukládá do interního pole (max 32 KB ≈ 5.9 s zvuku).
    - `BufSource` je `DataSource` připojený k `MixerChannel` → umí přehrát buffer.
    - Vystavuje TS shimy: `startCapture`, `captureLength`, `captureGetChunk`,
      `playPrepare`, `playWriteChunk`, `playStart`, …
@@ -27,7 +27,7 @@ přes radio mezi dvěma+ micro:bity V2.
 
 | Tlačítko | Akce |
 |----------|------|
-| **A** (drž) | Nahraje (max ~1.45 s) a po puštění odešle ostatním |
+| **A** (drž) | Nahraje (max ~5.9 s) a po puštění odešle ostatním |
 | **B** | Přepne kanál (radio skupina 1–9) |
 | **A + B** | Lokální test (nahraje a hned přehraje na sobě) |
 | **Logo** | Přehraje poslední přijatou nahrávku znovu |
@@ -38,9 +38,9 @@ přes radio mezi dvěma+ micro:bity V2.
 |----------|---------|
 | Sample rate | 5500 Hz |
 | Bit depth | 8 bit unsigned |
-| Max délka nahrávky | ~1.45 s (8000 B) |
-| Velikost přenosu | ~8 KB / nahrávka |
-| Doba přenosu | **5–15 s** (záleží na rušení) |
+| Max délka nahrávky | ~5.9 s (32 KB) |
+| Velikost přenosu | ~32 KB / nahrávka |
+| Doba přenosu | **20–60 s** (záleží na rušení) |
 | Spolehlivost | Žádné ACK — ztracený packet = ticho / lupanec |
 | Kvalita | Telefonní šepot, rozpoznáš slova |
 

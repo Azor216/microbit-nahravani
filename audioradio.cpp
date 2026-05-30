@@ -22,7 +22,10 @@ using namespace pxt;
 
 namespace audioradio {
 
-#define AR_MAX_BUFFER 8192
+// Velikost interního bufferu v B. micro:bit V2 má 128 KB RAM,
+// audio-recording extension dává default 50 KB. Tady 32 KB pro nahrání
+// a 32 KB pro přehrání = 64 KB. Při 5500 Hz × 8-bit = ~5.9 s nahrávky.
+#define AR_MAX_BUFFER 32768
 
 #if MICROBIT_CODAL
 

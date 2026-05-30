@@ -3,8 +3,8 @@
 // PŘENOS AUDIO MEZI micro:bity V2 PŘES RADIO  (experiment "max kvality")
 // =====================================================================
 // Princip:
-//   1. TX micro:bit nahraje cca 1.5 s zvuku přes vlastní C++ extension
-//      audioradio (8-bit unsigned, 5500 Hz → ~8 KB samplů).
+//   1. TX micro:bit nahraje cca 5.8 s zvuku přes vlastní C++ extension
+//      audioradio (8-bit unsigned, 5500 Hz → ~32 KB samplů).
 //   2. TS kód rozseká buffer na 14-bajtové chunky, ke každému přidá
 //      2B pořadové číslo, pošle přes radio.sendBuffer.
 //   3. RX micro:bit přijímá:
@@ -14,7 +14,7 @@
 //   4. Audio se přehraje přes reproduktor přes MixerChannel.
 //
 // Ovládání:
-//   A (drž)   = nahrát zvuk (max ~1.5 s, do puštění A nebo do zaplnění)
+//   A (drž)   = nahrát zvuk (max ~5.8 s, do puštění A nebo do zaplnění)
 //                po puštění se automaticky pošle ostatním
 //   B         = přepnout kanál (radio skupina 1-9)
 //   Logo      = přehrát poslední přijatou nahrávku znovu
@@ -22,15 +22,15 @@
 //
 // LIMITY / VAROVÁNÍ:
 //   - Kvalita ~ telefonní šepot (5.5 kHz 8-bit, žádná komprese).
-//   - Přenos 8 KB přes radio trvá řádově 5-15 s podle rušení.
+//   - Přenos 32 KB přes radio trvá řádově 20-60 s podle rušení.
 //   - Žádné ACK / retransmise – ztracené packety = chybějící samply
 //     (slyšet jako lupance/cvakání).
 // =====================================================================
 
 const SAMPLE_RATE   = 5500
-const MAX_BYTES     = 8000   // ~1.45 s nahrávky
+const MAX_BYTES     = 32000  // ~5.8 s nahrávky při 5500 Hz × 8-bit
 const CHUNK_DATA    = 14     // bajtů samplů na 1 radio packet
-const PACKET_GAP_MS = 6      // pauza mezi packety
+const PACKET_GAP_MS = 5      // pauza mezi packety
 const MAGIC_HEADER  = 0xFE
 const MAGIC_FOOTER  = 0xFF
 const KANAL_START   = 7
