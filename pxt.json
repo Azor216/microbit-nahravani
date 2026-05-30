@@ -1,7 +1,6 @@
 {
     "name": "nahravani",
-    "version": "0.2.0",
-    "description": "Přenos audio mezi micro:bity V2 přes radio (experiment, vlastní C++ extension)",
+    "description": "Přenos audio mezi micro:bity V2 přes radio (vlastní C++ extension)",
     "dependencies": {
         "core": "*",
         "radio": "*"
@@ -13,16 +12,8 @@
         "README.md"
     ],
     "testFiles": [],
-    "public": true,
-    "targetVersions": {
-        "target": "7.0.0",
-        "targetId": "microbit"
-    },
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "tsprj",
-    "disablesVariants": [
-        "mbdal"
-    ]
+    "preferredEditor": "tsprj"
 }
